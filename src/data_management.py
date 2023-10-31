@@ -1,7 +1,10 @@
 import pandas as pd
+import sklearn
+
+import category_encoders as ce
 
 
-def clean_data(file):
+def clean_data(file, null_data_method):
     """
     Implementa la funcion que se encargara de limpiar el archivo de data.
 
@@ -34,21 +37,49 @@ def clean_data(file):
     
     # Eliminar filas con datos faltantes
     # Metodo 1: eliminar filas con datos faltantes
-    df = df.dropna()
+    # Metodo 2: reemplazar datos faltantes con el valor mas comun en la columna
+    if null_data_method == 1:
+        df = df.dropna()
+    elif null_data_method == 2:
+        df = df.fillna(df.mode().iloc[0])
 
-    # Metodo 2: reemplazar datos faltantes con la media
-    # for columnName in df:
-    #     column_mean = df[columnName].mean()
-    #     df[columnName].fillna(value=column_mean, inplace=True)
+    # Categorizacion de la data
+    # Usando la libreria sklearn con one-hot encoding
+    ohe = ce.OneHotEncoder(cols=['Make',
+                                 'Fuel Type',
+                                 'Transmission',
+                                 'Owner'])
+    df = ohe.fit_transform(df)
 
-    # Metodo 3: reemplazar datos faltantes con valor mas comun de la columna
-    # df = df.fillna(df.mode().iloc[0])
-
+    # Normalizacion de la data con valores numericos altos
+    columns_to_normalize = ['Year',
+                            'Kilometer',
+                            'Seating Capacity',
+                            'Fuel Tank Capacity']
+    
+    convert_dict = {'Year': float,
+                    'Kilometer': float,
+                    'Seating Capacity': float,
+                    'Fuel Tank Capacity': float}
+    df = df.astype(convert_dict)
+    
+    for column in columns_to_normalize:
+        max_value = df[column].max()
+        min_value = df[column].min()
+        for index, row in df.iterrows():
+            df.at[index, column] = float((row[column] - min_value) / (max_value - min_value))
+    
+    # Guardar data limpia en un nuevo archivo
     df.to_csv('doc/CarDekho_clean.csv', index=False)
+
     return df
 
 def main():
-    clean_data('doc/CarDekho.csv')
+    df = clean_data('doc/CarDekho.csv', 1)
+    print(df)
+
+    df1 = clean_data('doc/CarDekho.csv', 2)
+    print(df1)
 
 if __name__ == "__main__":
     main()
