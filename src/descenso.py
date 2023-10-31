@@ -10,7 +10,7 @@ def calcular_costo(X, y, theta):
     
     return costo, error
 
-def gradient_descent(X, y, theta, alpha, iters,tolerancia = 1e-6):
+def gradient_descent(X, y, theta, alpha, iters, tolerancia = 1e-6):
     """
     Implementa el algoritmo de descenso de gradiente para regresión lineal multivariada.
 
@@ -61,7 +61,7 @@ def plotChart(iterations, cost_num):
 def main():
 
     # Import data
-    data = pd.read_csv('../doc/house_practice.csv')
+    data = pd.read_csv('doc/house_practice.csv')
 
     # Extract data into X and y
     X = data[['Size', 'Bedrooms']]
