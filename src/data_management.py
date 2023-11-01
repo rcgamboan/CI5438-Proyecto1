@@ -1,4 +1,5 @@
 import pandas as pd
+import os
 import sklearn
 
 import category_encoders as ce
@@ -67,17 +68,23 @@ def clean_data(file, null_data_method):
         min_value = df[column].min()
         for index, row in df.iterrows():
             df.at[index, column] = float((row[column] - min_value) / (max_value - min_value))
+
+
+    # Guardar data limpia en un nuevo archivo
+    # con el mismo nombre agregando '_clean' al final
+    filename, file_extension = os.path.splitext(file)
+    ruta = filename + '_clean' + file_extension
     
     # Guardar data limpia en un nuevo archivo
-    df.to_csv('doc/CarDekho_clean.csv', index=False)
+    df.to_csv(ruta, index=False)
 
     return df
 
 def main():
-    df = clean_data('doc/CarDekho.csv', 1)
+    df = clean_data('../doc/CarDekho.csv', 1)
     print(df)
 
-    df1 = clean_data('doc/CarDekho.csv', 2)
+    df1 = clean_data('../doc/CarDekho.csv', 2)
     print(df1)
 
 if __name__ == "__main__":
