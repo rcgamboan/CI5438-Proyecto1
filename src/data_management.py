@@ -22,7 +22,6 @@ def clean_data(file, null_data_method):
     df = df.drop(
         [
             'Model',
-            'Price',
             'Location',
             'Color',
             'Seller Type',
