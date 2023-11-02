@@ -78,10 +78,13 @@ def main():
     print(f"Costo final: {costo_final}\ntheta final: {theta}\n")
 
     # Predecir precios de la data de prueba
+    test_price = test['Price']
+    test = test.drop('Price', axis=1)
+    test = np.c_[np.ones(test.shape[0]), test]
     y_pred = theta.dot(test.T)
 
     # Calcular error de predicción
-    errores = y_pred - test['Price']
+    errores = y_pred - test_price
 
     # Calcular RMSE
     rmse = np.sqrt(np.mean(errores**2))
