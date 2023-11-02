@@ -37,7 +37,7 @@ def gradient_descent(X, y, theta, alpha, iters, tolerancia = 1e-6):
         costo_act, error = calcular_costo(X, y, theta)
 
         # Convergencia
-        if costo_ant and abs(costo_ant-costo_act)<=tolerancia:
+        if costo_ant and abs(costo_ant - costo_act) <= tolerancia:
             print(f"Convergencia en iteracion {i}\n")
             iters = i
             break
