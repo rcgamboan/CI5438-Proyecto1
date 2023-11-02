@@ -75,6 +75,19 @@ def main():
 
     print(f"Costo final: {costo_final}\ntheta final: {theta}\n")
 
+    # Predecir precios de la data de prueba
+    y_pred = theta.dot(test.T)
+
+    # Calcular error de predicción
+    errores = y_pred - test['Price']
+
+    # Calcular RMSE
+    rmse = np.sqrt(np.mean(errores**2))
+
+    # Imprimir RMSE
+    print(f"RMSE: {rmse}")
+
+
 
 if __name__ == "__main__":
     main()
