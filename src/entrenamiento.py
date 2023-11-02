@@ -12,29 +12,32 @@ def main():
 
     # Cargar data
     data = pd.read_csv('../doc/CarDekho_clean.csv')
-    #print("Datos cargados")
-    #print(data)
+
+    # Separar data de entrenamiento y de prueba
+    # se utiliza un 80% para entrenamiento y 20% para prueba
+    sep = int(data.shape[0]*0.8)
+    train = data.iloc[:sep,:]
+    test = data.iloc[sep:,:]
 
     # Obtener columna Price para y
-    y = data['Price']
+    y = train['Price']
 
     # Filtrar columnas para X
-    X = data.drop('Price', axis=1)
+    X = train.drop('Price', axis=1)
 
-    print("Datos filtrados")
+    print("Datos cargados")
     print(f"X: {X}")
     print(f"y: {y}")
 
     # Se normalizan las caracteristicas X
     # para evitar que las características con valores más grandes 
-    # tengan un impacto desproporcionado en el proceso de aprendizaje
-
-    ## Normalizacion de la data con valores numericos altos
+    # tengan un impacto desproporcionado en el proceso de aprendizaje.
     # Si las características tienen valores muy diferentes, 
     # el gradiente puede ser muy sensible a las características con valores más grandes. 
     # Esto puede provocar que el modelo se ajuste demasiado a estas características y 
     # que se vea afectado por el ruido.
-    X = (X - X.mean()) / X.std()
+    #X = (X - X.min()) / (X.max() - X.min())
+    #print(f"X normalizado: {X}")
 
     # Se le agrega otra columna a X con 1 para permitir el descenso de gradiente vectorizado
     # En lugar de calcular el gradiente para cada característica individualmente, 
@@ -55,13 +58,15 @@ def main():
 
     # Ejecutar descenso de gradiente
     # al ejecutar el algoritmo, se obtiene una ecuacion de la forma
-    # y = theta_0 + theta_1 * x_1 + theta_2 * x_2
+    # y = theta_0 + theta_1 * x_1 + theta_2 * x_2 + ... + theta_n * x_n
     # donde:
     #   y es lo que se quiere predecir
     #   theta_0 es el término independiente
     #   theta_1 es el coeficiente de la caracteristica x1
     #   theta_2 es el coeficiente de la característica x2
     theta, lista_costos, iters = gradient_descent(X, y, theta, alpha, iterations)
+
+    print(f"iteraciones: {iters}")
 
     # Mostrar grafica de costo vs iteraciones
     plotChart(iters, lista_costos[0:iters])
