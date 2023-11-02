@@ -51,13 +51,18 @@ def clean_data(file, null_data_method):
                                  'Owner'])
     df = ohe.fit_transform(df)
 
+    # Guardamos la lista de precios sin normalizar
+    precios_sin_normalizar = df['Price']
+
     # Normalizacion de la data con valores numericos altos
-    columns_to_normalize = ['Year',
+    columns_to_normalize = ['Price',
+                            'Year',
                             'Kilometer',
                             'Seating Capacity',
                             'Fuel Tank Capacity']
     
-    convert_dict = {'Year': float,
+    convert_dict = {'Price': float,
+                    'Year': float,
                     'Kilometer': float,
                     'Seating Capacity': float,
                     'Fuel Tank Capacity': float}
@@ -78,14 +83,5 @@ def clean_data(file, null_data_method):
     # Guardar data limpia en un nuevo archivo
     df.to_csv(ruta, index=False)
 
-    return df
+    return df, precios_sin_normalizar
 
-def main():
-    df = clean_data('../doc/CarDekho.csv', 1)
-    print(df)
-
-    df1 = clean_data('../doc/CarDekho.csv', 2)
-    print(df1)
-
-if __name__ == "__main__":
-    main()
