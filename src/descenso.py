@@ -63,8 +63,8 @@ def generar_data(cant_puntos,w0,w1,w2):
     y = np.zeros(shape=cant_puntos)
 
     for i in range(cant_puntos):
-        x[i][0] = 1
-        x[i][1] = i
+        x[i][0] = random.randint(1,100)
+        x[i][1] = random.randint(1,100)
         y[i] = w0 + w1*x[i][0] + w2*x[i][1]
     
     return x, y
@@ -74,7 +74,7 @@ def main():
     X_init, y = generar_data(1000, -10, 2,5)
     X = np.c_[np.ones(X_init.shape[0]), X_init]
 
-    alpha = 0.0000000005
+    alpha = 0.00000005
     iterations = 100000
     theta = np.zeros(X.shape[1])
     
