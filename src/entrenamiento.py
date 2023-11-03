@@ -8,7 +8,7 @@ import numpy as np
 def main():
 
     # Cargar y limpiar data
-    data, precios_reales = clean_data('doc/CarDekho.csv', 2)
+    data, precios_reales = clean_data('../doc/CarDekho.csv', 2)
 
     # Separar data de entrenamiento y de prueba
     # se utiliza un 80% para entrenamiento y 20% para prueba
@@ -53,7 +53,7 @@ def main():
     # el modelo puede oscilar entre diferentes mínimos locales y no converger a un minimo global. 
     # Si la tasa de aprendizaje es demasiado baja, el modelo puede tardar mucho tiempo en converger. 
     # En algunos casos, el modelo puede no converger en absoluto.
-    alpha = 0.05
+    alpha = 0.00005
     iterations = 100000
 
     # Inicializar vector theta

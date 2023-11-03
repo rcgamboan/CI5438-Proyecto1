@@ -56,6 +56,7 @@ def plotChart(iterations, cost_num):
     ax.set_ylabel('Costo')
     ax.set_title('Costo vs # Iteracion')
     plt.style.use('fivethirtyeight')
+    #plt.savefig('0.00005.png')
     plt.show()
 
 def generar_data(cant_puntos,w0,w1,w2):
